@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.robomossystem.*;
 import org.firstinspires.ftc.teamcode.utility.*;
 
-@TeleOp(name="Decode Teleop", group="Linear OpMode")
+@TeleOp(name="Decode Teleop", group="Decode")
 
 
 public class DecodeTeleOp extends LinearOpMode {
@@ -84,9 +84,11 @@ public class DecodeTeleOp extends LinearOpMode {
          */
 
         //Initialize Drivetrain
-        drivetrain.initialize(1);
+        drivetrain.initialize();
         intksht.init();
         vision.init();
+        // Get allaince from start info
+        alliance= allianceData.allianceInstance().getAlliance();
 
         //Ask operator which alliance they are on
         while (alliance == null){
@@ -110,11 +112,6 @@ public class DecodeTeleOp extends LinearOpMode {
              */
             intksht.periodic();
             dummy = drivetrain.periodic(); //This is called as a variable for scheduling reasons
-
-            //If gamepad1 a is pressed move servotest to 0.05
-            //Servo is a 5 rotation servo so 1 rotation is 360 degrees and 0.05 is 18 degrees
-            //  if (gamepad1.a) {specimenElevator.();
-            // }
 
 
             //Variables for the specimen subsystem.
@@ -216,11 +213,16 @@ public class DecodeTeleOp extends LinearOpMode {
         //Put any super-system type voids here
         //TODO add timers in place of sleep
 
-        ElapsedTime holdingTimer = new ElapsedTime();
+    private ElapsedTime holdingTimer = new ElapsedTime();
 
 
 
 
 
+    void wait(double holdTime) {
+        holdingTimer.reset();
+        while (holdingTimer.time() < holdTime) {
+        }
+    }
 }
 
